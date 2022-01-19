@@ -1,0 +1,5 @@
+ROOM[antechamber]: a dank room
+DOOR[corridoor]: a closed door
+
+ROOM[corridoor]: a corridoor
+DOOR[antechamber]: an open door
