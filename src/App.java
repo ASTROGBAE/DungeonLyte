@@ -1,25 +1,25 @@
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;  
+import java.util.Scanner;
+import java.util.Map.Entry;  
 
 public class App {
 
     static int scanState = 0; 
     static Map<String, Room> rooms = new HashMap<String, Room>();
-
-    static String[] hFormat = {"^", "(\\[\\w+\\])*: "};
-    static String[] headers = {"ROOM", "DOOR"};
+    static ExpFormat[] headers = {new ExpFormat("ROOM"), new ExpFormat("DOOR")};
 
     public static void main(String[] args) throws Exception {
 
-        for (int i = 0; i < headers.length; i++) {headers[i] = hFormat[0] + headers[i] + hFormat[1];}; // populate format on headers with concat
         scanPass();
         scanState = 1;
         scanPass();
-        System.out.println("done running!");
-        System.out.println("Rooms: " + rooms.toString());
-        System.out.println(headers[0] + " " + headers[1]);
+
+        System.out.print("Rooms: ");
+        for (Entry<String, Room> entry : rooms.entrySet()) {
+            System.out.println(entry.getValue().toString());
+        }
 
     }
 
@@ -30,26 +30,24 @@ public class App {
                 FileInputStream gameStream =new FileInputStream("data/game.txt");       
                 Scanner gameScan =new Scanner(gameStream);    //file to be scanned  
                 //returns true if there is another line to read
+                for (ExpFormat head : headers) { // iterate through each header
+                    while(gameScan.hasNextLine())  { // scanning for rooms
+                        String line = gameScan.nextLine();
+                        String lastRoomTitle = "";
 
-                while(gameScan.hasNextLine())  { // scanning for rooms
-                    String line = gameScan.nextLine();
-                    System.out.println(line.contains(headers[0]));
-                    // TODO figure out why this is returning false??
-                    if (scanState == 0 && line.contains(headers[0])) { // add all new rooms
-                        String head = line.replaceFirst("[^"+headers[0]+"]", ""); // get header string
-                        String tail = line.replaceFirst(headers[0], ""); // remove header, get tail
-                        String title = head.substring(5, head.length()-2); // get title from header, TODO refactor this process
-                        rooms.put(title, new Room(title, tail)); // TODO refactor usage of title?
-                    } 
-                    else if (scanState == 1 && line.contains(headers[1])) { // scanning for doors
-                        String lastRoom = "foobar"; // TODO: need to remember last pass!
-                        String head = line.replaceFirst("[^"+headers[0]+"]", ""); // get header string
-                        String tail = line.replaceFirst(headers[0], ""); // remove header, get tail
-                        String title = head.substring(5, head.length()-2); // get title from header, TODO refactor this process
-                        Room[] link = {rooms.get(lastRoom), rooms.get(title)}; // get last room and subject room from title
-                        link[0].addDoor(tail, link);
+                        if (head.getHead() == "ROOM") {
+                            rooms.put(head.getTitle(line), new Room(head.getTitle(line), head.getTail(line))); // TODO refactor usage of title?
+                        }
+                        else if (head.getHead() == "DOOR") {
+                            if (headers[0].isExpression(line)) { // if room expression but door scan, then remember last room
+                                // TODO refactor so this is if exp is cleaner? make each format a variable perhaps?
+                                lastRoomTitle = headers[0].getTitle(line);
+                            }
+                            Room[] link = {rooms.get(lastRoomTitle), rooms.get(head.getTitle(line))}; // get last room and subject room from title
+                            Door _door = new Door(head.getTail(line), link);
+                            for (Room r : link) {r.addDoor(_door);} // add door ref to both rooms
+                        }
                     }
-                    //System.out.println(sc.nextLine());      //returns the line that was skipped  
                 } 
                 gameScan.close();     //closes the scanner 
             }
@@ -57,12 +55,5 @@ public class App {
             {  
                 e.printStackTrace();  
             }  
-    }
-
-    public boolean validLine(String line, String header) {
-        // if (line.substring(header.length()-1).matches()) {
-            
-        // }
-        return true;
     }
 }

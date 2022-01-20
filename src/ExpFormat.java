@@ -1,15 +1,19 @@
 public class ExpFormat {
     
-    String head;
-    String titleRegex = "\\[\\w+\\]"; // regex for title
-    String[] wrapperFullRegex = {"^", "*: "}; // regex to wrap front and back of full exp
+    private String head;
+    private String titleRegex = "\\[\\w+\\]"; // regex for title
+    private String[] wrapperFullRegex = {"^", "*: "}; // regex to wrap front and back of full exp
 
     public ExpFormat(String _head) { // constructor
-        head = _head;
+        head = _head.toUpperCase(); // make sure all uppercase
     }
 
     private String bodyRegex() {
         return wrapperFullRegex[0] + head + titleRegex + wrapperFullRegex[1]; // header regex prefix and suffix
+    }
+
+    public String getHead() {
+        return head;
     }
 
     // get body (header+title or just header)

@@ -10,8 +10,12 @@ public class Room extends Dungeon {
         doors = new ArrayList<Door>();
     }
 
-    public void addDoor(String _desc, Room[] _link) {
-        doors.add(new Door(_desc, _link));
+    public void addDoor(Door _door) {
+        doors.add(_door);
+    }
+
+    public String toString() {
+        return "Door name: " + name + ", desc: " + desc + ", doors: " + doors.toString();
     }
     
 }
