@@ -28,7 +28,7 @@ public class ExpFormat {
     // return title from header if it exists, else return ""
     public String getTitle(String line) {
         String body = getBody(line);
-        if (body != "" && body.contains(titleRegex)) { // check if valid body and contails title
+        if (body != "" && body.matches(".*"+titleRegex+".*")) { // check if valid body and contails title and everything else
             return body.substring(body.indexOf("[")+1, body.indexOf("]")); // get string enclosed by square brackets []
         }
         return "";
@@ -39,7 +39,7 @@ public class ExpFormat {
     public String getTail(String line) {
         String body = getBody(line);
         if (body != "") { // valid body
-            return line.substring(body.length()+2); // return tail (cut off body)
+            return line.substring(body.length()); // return tail (cut off body)
             // TODO what if no tail, will this substring work?
         }
         return "";
@@ -47,7 +47,8 @@ public class ExpFormat {
 
     // return true if line is a valid expression, else false
     public Boolean isExpression(String line) {
-        return line.contains(bodyRegex() + ".*");
+        String regex = bodyRegex() + ".*";
+        return line.matches(regex);
     }
 
 }

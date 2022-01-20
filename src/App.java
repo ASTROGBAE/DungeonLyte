@@ -36,7 +36,9 @@ public class App {
                         String lastRoomTitle = "";
 
                         if (head.getHead() == "ROOM") {
-                            rooms.put(head.getTitle(line), new Room(head.getTitle(line), head.getTail(line))); // TODO refactor usage of title?
+                            String title = head.getTitle(line);
+                            String tail = head.getTail(line);
+                            rooms.put(title, new Room(title, tail)); // TODO refactor usage of title?
                         }
                         else if (head.getHead() == "DOOR") {
                             if (headers[0].isExpression(line)) { // if room expression but door scan, then remember last room
