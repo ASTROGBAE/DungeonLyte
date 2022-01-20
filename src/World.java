@@ -26,6 +26,7 @@ public class World {
     }
     
     // scan in objects from scan according to the provided head object 
+    // TODO find out why an empty room is build first??
     private void scanHeaders(ExpFormat head, Scanner _gameScan) {
         //returns true if there is another line to read
         while(_gameScan.hasNextLine())  { // scanning for rooms

@@ -11,11 +11,7 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         dungeon = new World();
-
-        // System.out.print("Rooms: (" + rooms.size() + ")");
-        // for (Entry<String, Room> entry : rooms.entrySet()) {
-        //     System.out.println(entry.getValue().toString());
-        // }
+        System.out.println("Done!");
 
     }
 }
