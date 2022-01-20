@@ -47,7 +47,7 @@ public class ExpFormat {
 
     // return true if line is a valid expression, else false
     public Boolean isExpression(String line) {
-        String regex = bodyRegex() + ".*";
+        String regex = bodyRegex() + ".*"; // check matches entire line
         return line.matches(regex);
     }
 
