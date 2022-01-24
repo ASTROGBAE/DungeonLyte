@@ -2,7 +2,7 @@
 
 DungeonLyte is a text adventure game interpreter and compiler. Using a simple to understand syntax, write text adventure games with branching choices, items and conditions.
 
-The interpreter and underlying structure is written in Java. The front-end language for writing an adenture game is called Dracoysh. Write down your epic adventure in Dracoysh script (formatted as 'game.txt'), place it in the /data file and run the Java code!
+The interpreter and underlying structure is written in Java. The front-end language for writing an adenture game is called Dracoysh. Write down your epic adventure in Dracoysh script and run it with the Java code!
 
 ## How to make a game
 
