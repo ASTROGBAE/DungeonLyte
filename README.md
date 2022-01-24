@@ -6,15 +6,15 @@ The interpreter and underlying structure is written in Java. The front-end langu
 
 ## How to make a game
 
-Simply write your adventure in the Dracolysh language (see section 'Adventure game code: Dracoysh') in a text file. Name that file 'game.txt', place it in the /data file and run the Java code. 
+Simply write your adventure in the Dracolysh language (see section 'Adventure language: Dracoysh') in a text file. Name that file 'game.txt', place it in the /data file and run the Java code. 
 
-## Adventure game code: Dracoysh
+## Adventure language: Dracoysh
 
 Since the dawn of the world, ancient dragons have written in their infernal tongue, Dracoysh. 
 
 The basic syntax (called a 'drake') is themed around the body of a dragon. Each body acts to return a data object from the compiler and usually exists within a linear context with other drake objects. Syntax as follows:
 
-> $HEADER[Title]: tail
+> HEADER[Title]: tail
 
 - HEADER: the return data type of the drake, which in capitals and is a defined set specified by Dracolysh. For now this set includes a ROOM and DOOR object (see the 'Game objects' section for more details). 
 
@@ -24,9 +24,9 @@ The basic syntax (called a 'drake') is themed around the body of a dragon. Each 
 
 An example of this syntax in action is shown below, which will create two Room objects with descriptions, as well as a Door object with a description and references to the aforementioned Rooms:
 
-> $ROOM[spooky corridoor]: You enter a long, dark corridoor. It is covered in cobwebs.
-> $DOOR[Dragon throne room]: Before you is a huge metal door with engravings of twisting tails and fire.
-> $ROOM[Dragon throne room]: You feel a sudden wave of heat as a dragon stands before you!
+> ROOM[spooky corridoor]: You enter a long, dark corridoor. It is covered in cobwebs.
+> DOOR[Dragon throne room]: Before you is a huge metal door with engravings of twisting tails and fire.
+> ROOM[Dragon throne room]: You feel a sudden wave of heat as a dragon stands before you!
 
 ## Game objects
 
