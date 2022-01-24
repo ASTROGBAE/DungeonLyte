@@ -25,7 +25,9 @@ The basic syntax (called a 'drake') is themed around the body of a dragon. Each 
 An example of this syntax in action is shown below, which will create two Room objects with descriptions, as well as a Door object with a description and references to the aforementioned Rooms:
 
 > $ROOM[spooky corridoor]: You enter a long, dark corridoor. It is covered in cobwebs.
+
 > $DOOR[Dragon throne room]: Before you is a huge metal door with engravings of twisting tails and fire.
+
 > $ROOM[Dragon throne room]: You feel a sudden wave of heat as a dragon stands before you!
 
 ## Game objects
