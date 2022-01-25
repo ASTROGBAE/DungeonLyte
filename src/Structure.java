@@ -1,8 +1,8 @@
-public abstract class Dungeon {
+public abstract class Structure {
     String name = "";
     String desc = "";
 
-    public Dungeon(String _desc) {
+    public Structure(String _desc) {
         desc = _desc; 
     }
 
