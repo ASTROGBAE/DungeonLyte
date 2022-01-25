@@ -1,4 +1,4 @@
-public class Door extends Structure {
+public class Door extends WorldObject {
 
     Room[] link = null;
 

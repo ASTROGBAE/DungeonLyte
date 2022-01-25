@@ -1,8 +1,8 @@
-public abstract class Structure {
+public abstract class WorldObject {
     String name = "";
     String desc = "";
 
-    public Structure(String _desc) {
+    public WorldObject(String _desc) {
         desc = _desc; 
     }
 
