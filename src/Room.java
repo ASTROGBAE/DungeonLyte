@@ -5,8 +5,7 @@ public class Room extends WorldObject {
     private ArrayList<Door> doors = null;
 
     public Room(String _name, String _desc) {
-        super(_desc);
-        name = _name;
+        super(_name, _desc);
         doors = new ArrayList<Door>();
     }
 

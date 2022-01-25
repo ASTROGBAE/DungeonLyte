@@ -9,13 +9,15 @@ public class WorldLoad {
     
     
     private Map<String, Room> rooms;
+    private Map<String, WorldObject> nonRooms;
     private ArrayList<String> headers = new ArrayList<String>();
     private String fileToScan;
 
     public WorldLoad(String _fileToScan) {
         fileToScan = _fileToScan; // init file of scan 
         rooms = new LinkedHashMap<String, Room>();
-        String[] heads = {"Room", "Door"}; for (String s : heads) {headers.add(s);} // scan in head objects
+        // TODO implement non-room categories!
+        String[] heads = {"Room", "Door", "Item", "Feature"}; for (String s : heads) {headers.add(s);} // scan in head objects
     }
 
     // return first room with connected objects 
@@ -59,7 +61,21 @@ public class WorldLoad {
             Door _door = new Door(tail, link); // create door instance 
             for (Room r : link) {r.addDoor(_door);} // add door ref to both rooms
         }
+        else if (head == "Item") {
+            Room[] link = {rooms.get(lastTitle), rooms.get(title)}; // get last room and subject room from title
+            Door _door = new Door(tail, link); // create door instance 
+            for (Room r : link) {r.addDoor(_door);} // add door ref to both rooms
+        }
+        else if (head == "Feature") {
+            Room[] link = {rooms.get(lastTitle), rooms.get(title)}; // get last room and subject room from title
+            Door _door = new Door(tail, link); // create door instance 
+            for (Room r : link) {r.addDoor(_door);} // add door ref to both rooms
+        }
     }
+
+    // TODO add functionality for comments?
+
+    // TODO add functionality for var?
 
 
 }
