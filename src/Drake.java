@@ -91,4 +91,9 @@ public class Drake {
         return line.matches(regex);
     }
 
+    // boolean responce
+    public Boolean isRoom() {
+        if (head == "Room") {
+            return true;} return false; 
+    }
 }

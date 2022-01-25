@@ -1,5 +1,6 @@
-ROOM[antechamber]: a dank room
-DOOR[corridoor]: a closed door
+Room[antechamber]: a dank room
+Door[corridoor]: a closed door
 
-ROOM[corridoor]: a corridoor
-DOOR[antechamber]: an open door
+Room[corridoor]: a corridoor
+Door[antechamber]: an open door
+Item[key]: rusty key on the ground

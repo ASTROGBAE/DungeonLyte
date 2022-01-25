@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public abstract class WorldObject {
-    String name = "";
-    String desc = "";
+    protected String name;
+    protected String desc;
     ArrayList<WorldObject> store;
 
     public WorldObject(String _name, String _desc) {
@@ -10,6 +10,14 @@ public abstract class WorldObject {
         desc = _desc;
         store = new ArrayList<WorldObject>();
 
+    }
+
+    // get methods
+    public String getName() {
+        return name;
+    }
+    public String getDescription() {
+        return desc;
     }
 
     public void addToStore(WorldObject _add) {

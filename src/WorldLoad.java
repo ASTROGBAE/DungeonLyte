@@ -16,8 +16,9 @@ public class WorldLoad {
     public WorldLoad(String _fileToScan) {
         fileToScan = _fileToScan; // init file of scan 
         rooms = new LinkedHashMap<String, Room>();
+        nonRooms = new LinkedHashMap<String, WorldObject>();
         // TODO implement non-room categories!
-        String[] heads = {"Room", "Door", "Item", "Feature"}; for (String s : heads) {headers.add(s);} // scan in head objects
+        String[] heads = {"Room", "Door", "Item", "Feature", "Lock"}; for (String s : heads) {headers.add(s);} // scan in head objects
     }
 
     // return first room with connected objects 
@@ -42,35 +43,46 @@ public class WorldLoad {
 
             if (curDrake.compareToHeader(level, headers) < 0) { // if scan of current drake is higher than the level, get title of currrent drake for further reference
                 // order in terms of precedence, perhaps?
-                lastHigherTitle = curDrake.getTitle();
+                lastHigherTitle = curDrake.getTitle(); // TODO not working with door obj?
             }
             toDungeonObject (curDrake, lastHigherTitle); // create dungeon item
         }
     }
 
     // takes string and format parameters for each value and creates an appopriate dungeon object (not returned)
-    private void toDungeonObject (Drake drakeToConvert, String lastTitle) {
-        String head = drakeToConvert.getHead();
-        String title = drakeToConvert.getTitle();
-        String tail = drakeToConvert.getTail();
-        if (head == "Room") {
-            rooms.put(title, new Room(title, tail)); // TODO refactor usage of title?
+    private void toDungeonObject (Drake _drake, String lastTitle) {
+        if (_drake.isRoom()) {
+            rooms.put(_drake.getTitle(), new Room(_drake.getTitle(), _drake.getTail())); // TODO refactor usage of title?
         }
-        else if (head == "Door") {
-            Room[] link = {rooms.get(lastTitle), rooms.get(title)}; // get last room and subject room from title
-            Door _door = new Door(tail, link); // create door instance 
-            for (Room r : link) {r.addDoor(_door);} // add door ref to both rooms
+        else if (!_drake.isRoom()) { // not room object
+            Room lastRoom = rooms.get(lastTitle);
+            if (_drake.getHead() == "Room") { // room object (add links)
+                Room[] link = {lastRoom, rooms.get(_drake.getTitle())}; // get last room and room from Door title
+                Door _door = new Door(_drake.getTitle(), link); // create door instance 
+                for (Room r : link) {r.addDoor(_door);} // add door ref to both rooms
+                nonRooms.put(_door.getName(), _door); // add door object to nonRooms list
+            } else if (_drake.getHead() == "Item") { // not Room or Door object
+                Item _item = new Item(_drake.getTitle(), _drake.getTail());
+                nonRooms.put(_drake.getTitle(), _item);
+                getWorldObject(lastTitle).addToStore(_item);
+                // TODO refactor so that you can include Room/Door in 
+            } else { // "Feature" option, TODO can only get once
+                Feature _feature = new Feature(_drake.getTitle(), _drake.getTail());
+                nonRooms.put(_drake.getTitle(), new Feature(_drake.getTitle(), _drake.getTail()));
+                getWorldObject(lastTitle).addToStore(_feature);
+                // TODO refactor this, collapse options!
+                // TODO add "lock" option!
+            }
         }
-        else if (head == "Item") {
-            Room[] link = {rooms.get(lastTitle), rooms.get(title)}; // get last room and subject room from title
-            Door _door = new Door(tail, link); // create door instance 
-            for (Room r : link) {r.addDoor(_door);} // add door ref to both rooms
+    }
+
+    private WorldObject getWorldObject(String title) {
+        if (rooms.containsKey(title)) {
+            return rooms.get(title);
+        } else if (nonRooms.containsKey(title)) {
+            return nonRooms.get(title);
         }
-        else if (head == "Feature") {
-            Room[] link = {rooms.get(lastTitle), rooms.get(title)}; // get last room and subject room from title
-            Door _door = new Door(tail, link); // create door instance 
-            for (Room r : link) {r.addDoor(_door);} // add door ref to both rooms
-        }
+        return null;
     }
 
     // TODO add functionality for comments?
