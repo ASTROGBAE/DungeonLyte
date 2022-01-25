@@ -1,4 +1,4 @@
-public class Door extends Dungeon {
+public class Door extends Structure {
 
     Room[] link = null;
 

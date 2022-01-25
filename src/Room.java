@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Room extends Dungeon {
+public class Room extends Structure {
 
     private ArrayList<Door> doors = null;
 
