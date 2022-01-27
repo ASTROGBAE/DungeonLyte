@@ -11,18 +11,16 @@ public class Drake {
     private String[] wrapperFullRegex = {"^", "*: "}; // regex to wrap front and back of full exp
 
     public Drake(String line) { // constructor for drake object
-        try {
-            if (isDrake(line)) { // if valid drake string, add in values
-                head = setHead(line);
-                title = setTitle(line); // add title if it exists, else it is ""
-                tail = setTail(line);
-            }
-        }
-        catch (Exception e) {e.printStackTrace();}
+        if (isDrake(line)) { // if valid drake string, add in values
+            head = setHead(line);
+            title = setTitle(line); // add title if it exists, else it is ""
+            tail = setTail(line);
+        } else {
+        System.out.println("Drake could not be created: " + line);}
     }
 
-    private String drakeRegex() {
-        return wrapperFullRegex[0] + head + titleRegex + wrapperFullRegex[1]; // header regex prefix and suffix
+    private String drakeRegex(String line) {
+        return wrapperFullRegex[0] + setHead(line) + titleRegex + wrapperFullRegex[1]; // header regex prefix and suffix
     }
 
     // get methods
@@ -42,7 +40,7 @@ public class Drake {
         if (headers.contains(this.getHead()) && headers.contains(header)) { // objects valid in headers
             int first = headers.indexOf(this.getHead());
             int second = headers.indexOf(header);
-            return first - second;
+            return second - first;
         }
         return 0;
     }
@@ -87,13 +85,18 @@ public class Drake {
 
     // return true if line is a valid drake expression, else false
     private Boolean isDrake(String line) {
-        String regex = drakeRegex() + ".*"; // check matches entire line
+        String regex = drakeRegex(line) + ".*"; // check matches entire line
         return line.matches(regex);
     }
 
     // boolean responce
     public Boolean isRoom() {
-        if (head == "Room") {
-            return true;} return false; 
+        if (head.equals("Room")) {return true;} return false; 
     }
+
+    // testing loop (delete later)
+    // public static void main(String[] args) throws Exception {
+    //     Drake _drake = new Drake("Room[antechamber]: a dank room");
+    //     System.out.println("eyy");
+    // }
 }

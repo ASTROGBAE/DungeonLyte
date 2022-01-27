@@ -40,39 +40,43 @@ public class WorldLoad {
         while(_gameScan.hasNextLine())  { // scanning for rooms
             String drakeParam = _gameScan.nextLine();
             Drake curDrake = new Drake(drakeParam); // create drake object for current level
-            String lastHigherTitle = "";
+            String higherObjName = "";
 
             if (curDrake.compareToHeader(level, headers) < 0) { // if scan of current drake is higher than the level, get title of currrent drake for further reference
                 // order in terms of precedence, perhaps?
-                lastHigherTitle = curDrake.getTitle(); // TODO not working with door obj?
+                higherObjName = curDrake.getTitle(); // TODO not working with door obj?
             }
-            toDungeonObject (curDrake, lastHigherTitle); // create dungeon item
+            drakeToObject (curDrake, higherObjName); // create dungeon item
         }
     }
 
     // takes string and format parameters for each value and creates an appopriate dungeon object (not returned)
-    private void toDungeonObject (Drake _drake, String lastTitle) {
+    private void drakeToObject (Drake _drake, String _higherObjName) {
+        // TODO figure out if first used drake is not a head, causes error (when lastTitle == "" here)
         if (_drake.isRoom()) {
             rooms.put(_drake.getTitle(), new Room(_drake.getTitle(), _drake.getTail())); // TODO refactor usage of title?
         }
         else if (!_drake.isRoom()) { // not room object
-            Room lastRoom = rooms.get(lastTitle);
-            if (_drake.getHead() == "Room") { // room object (add links)
+            if (_higherObjName == "") {System.out.println("invalid Dracolysh syntax! Door must always bee the first drake in a script.");}
+            Room lastRoom = rooms.get(_higherObjName);
+            if (_drake.getHead().equals("Door")) { // door object (add links)
                 Room[] link = {lastRoom, rooms.get(_drake.getTitle())}; // get last room and room from Door title
                 Door _door = new Door(_drake.getTitle(), link); // create door instance 
                 for (Room r : link) {r.addDoor(_door);} // add door ref to both rooms
                 nonRooms.put(_door.getName(), _door); // add door object to nonRooms list
-            } else if (_drake.getHead() == "Item") { // not Room or Door object
+            } else if (_drake.getHead().equals("Item")) { // not Room or Door object
                 Item _item = new Item(_drake.getTitle(), _drake.getTail());
                 nonRooms.put(_drake.getTitle(), _item);
-                getWorldObject(lastTitle).addToStore(_item);
+                getWorldObject(_higherObjName).addToStore(_item);
                 // TODO refactor so that you can include Room/Door in 
-            } else { // "Feature" option, TODO can only get once
+            } else if (_drake.getHead().equals("Feature")) { // "Feature" option, TODO can only get once
                 Feature _feature = new Feature(_drake.getTitle(), _drake.getTail());
                 nonRooms.put(_drake.getTitle(), new Feature(_drake.getTitle(), _drake.getTail()));
-                getWorldObject(lastTitle).addToStore(_feature); // if not full, add
+                getWorldObject(_higherObjName).addToStore(_feature); // if not full, add
                 // TODO refactor this, collapse options!
                 // TODO add "lock" option!
+            } else {
+                // invalid Drake object!
             }
         }
     }
