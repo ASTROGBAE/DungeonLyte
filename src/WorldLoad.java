@@ -14,7 +14,7 @@ public class WorldLoad {
     private String fileToScan;
 
     public WorldLoad(String _fileToScan) {
-        fileToScan = _fileToScan; // init file of scan 
+        fileToScan = "data/"+_fileToScan; // init file of scan 
         rooms = new LinkedHashMap<String, Room>();
         nonRooms = new LinkedHashMap<String, WorldObject>();
         // TODO implement non-room categories!
@@ -38,7 +38,8 @@ public class WorldLoad {
     private void levelScan(String level, Scanner _gameScan) {
         //returns true if there is another line to read
         while(_gameScan.hasNextLine())  { // scanning for rooms
-            Drake curDrake = new Drake(_gameScan.nextLine()); // create drake object for current level
+            String drakeParam = _gameScan.nextLine();
+            Drake curDrake = new Drake(drakeParam); // create drake object for current level
             String lastHigherTitle = "";
 
             if (curDrake.compareToHeader(level, headers) < 0) { // if scan of current drake is higher than the level, get title of currrent drake for further reference
@@ -69,7 +70,7 @@ public class WorldLoad {
             } else { // "Feature" option, TODO can only get once
                 Feature _feature = new Feature(_drake.getTitle(), _drake.getTail());
                 nonRooms.put(_drake.getTitle(), new Feature(_drake.getTitle(), _drake.getTail()));
-                getWorldObject(lastTitle).addToStore(_feature);
+                getWorldObject(lastTitle).addToStore(_feature); // if not full, add
                 // TODO refactor this, collapse options!
                 // TODO add "lock" option!
             }

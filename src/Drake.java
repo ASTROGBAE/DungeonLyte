@@ -18,7 +18,7 @@ public class Drake {
                 tail = setTail(line);
             }
         }
-        catch (Exception e) {}
+        catch (Exception e) {e.printStackTrace();}
     }
 
     private String drakeRegex() {
