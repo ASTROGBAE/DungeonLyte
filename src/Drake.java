@@ -50,7 +50,7 @@ public class Drake {
     private String setHead(String line) {
         // check if has title
         // do regex based on that
-        if (setTitle(line) != "") { // it a title exists, return name before header
+        if (!setTitle(line).equals("")) { // it a title exists, return name before header
             int bodyLength = line.indexOf("["); // get index of beginning of title
             return line.substring(0, bodyLength); // return body
         } // else, no title exists, just return body which is just the header
@@ -66,7 +66,7 @@ public class Drake {
     // return title from header if it exists, else return ""
     private String setTitle(String line) {
         String body = setBody(line);
-        if (body != "" && body.matches(".*"+titleRegex+".*")) { // check if valid body and contails title and everything else
+        if (!body.equals("") && body.matches(".*"+titleRegex+".*")) { // check if valid body and contails title and everything else
             return body.substring(body.indexOf("[")+1, body.indexOf("]")); // get string enclosed by square brackets []
         }
         return "";
@@ -76,7 +76,7 @@ public class Drake {
     // TODO what if no tail???
     private String setTail(String line) {
         String body = setBody(line);
-        if (body != "") { // valid body
+        if (!body.equals("")) { // valid body
             return line.substring(body.length()); // return tail (cut off body)
             // TODO what if no tail, will this substring work?
         }
@@ -89,9 +89,8 @@ public class Drake {
         return line.matches(regex);
     }
 
-    // boolean responce
-    public Boolean isRoom() {
-        if (head.equals("Room")) {return true;} return false; 
+    public Boolean isHead(String h) {
+        if (head.equals(h)) {return true;} return false;
     }
 
     // testing loop (delete later)
