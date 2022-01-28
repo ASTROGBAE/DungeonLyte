@@ -33,24 +33,23 @@ public class WorldLoad {
 
     private Room scanLevels(FileInputStream _gameStream) {
         for (String header : headers) { // perform a seperate scan per header object
-            Scanner gameScan = new Scanner(_gameStream); // new scan per level
-            scanLinesPerLevel(gameScan, header); 
-            gameScan.close(); // create new scanner, update rooms to return, close scanner
+            scanLinesPerLevel(_gameStream, header); 
         }
         return rooms.entrySet().iterator().next().getValue();
     }
     
     // scan game at a specific header level, remembering the last head in precedence (for linear referencing purposes)
-    private void scanLinesPerLevel(Scanner _gameScan, String _level) {
+    private void scanLinesPerLevel(FileInputStream _gameStream, String _level) {
         //returns true if there is another line to read
-        while(_gameScan.hasNextLine())  { // scanning for rooms
-            String lineToDrake = _gameScan.nextLine();
+        // TODO fix! only runs once
+        Scanner gameScan = new Scanner(_gameStream); // new scan per level
+        while(gameScan.hasNextLine())  { // scanning for rooms
+            String lineToDrake = gameScan.nextLine();
             if (!lineToDrake.equals("")) { // if line not empty (ignore empty lines)
                 Drake curDrake = new Drake(lineToDrake); // create drake object for current level
                 String higherObjName = "";
 
                 if (curDrake.compareToHeader(_level, headers) < 0) { // if scan of current drake is higher than the level, get title of currrent drake for further reference
-                    // order in terms of precedence, perhaps?
                     higherObjName = curDrake.getTitle(); // TODO not working with door obj?
                 }
                 if (curDrake.isHead(_level)) { // if right level to make object
@@ -58,6 +57,7 @@ public class WorldLoad {
             }
             }
         }
+        gameScan.close(); // create new scanner, update rooms to return, close scanner
     }
 
     // takes string and format parameters for each value and creates an appopriate dungeon object (not returned)
