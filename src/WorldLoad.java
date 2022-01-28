@@ -31,11 +31,10 @@ public class WorldLoad {
         return null; // TODO add optional clause in case IO doesn't work?
     }
 
-    private Room scanLevels(FileInputStream _gameStream) {
+    private void scanLevels(FileInputStream _gameStream) {
         for (String header : headers) { // perform a seperate scan per header object
             scanLinesPerLevel(_gameStream, header); 
         }
-        return rooms.entrySet().iterator().next().getValue();
     }
     
     // scan game at a specific header level, remembering the last head in precedence (for linear referencing purposes)
