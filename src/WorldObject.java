@@ -1,21 +1,19 @@
 import java.util.ArrayList;
 
+/**
+ * WorldObject class, but with a no name (only a Doors, which does not need a name)
+ */
 public abstract class WorldObject {
-    protected String name;
     protected String desc;
     ArrayList<WorldObject> store;
 
-    public WorldObject(String _name, String _desc) {
-        name = _name; 
+    public WorldObject(String _desc) {
         desc = _desc;
         store = new ArrayList<WorldObject>();
 
     }
 
     // get methods
-    public String getName() {
-        return name;
-    }
     public String getDescription() {
         return desc;
     }

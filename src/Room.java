@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Room extends WorldObject {
+public class Room extends WorldObjectNamed {
 
     private ArrayList<Door> doors = null;
 

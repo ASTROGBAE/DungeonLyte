@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Player extends WorldObject {
+public class Player extends WorldObjectNamed {
 
     ArrayList<Item> inventory;
 

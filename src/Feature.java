@@ -1,4 +1,4 @@
-public class Feature extends WorldObject {
+public class Feature extends WorldObjectNamed {
 
     public Feature(String _name, String _desc) {
         super(_name, _desc);

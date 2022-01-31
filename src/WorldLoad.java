@@ -15,7 +15,7 @@ public class WorldLoad {
     public WorldLoad(String _fileToScan) {
         fileToScan = "data/"+_fileToScan; // init file of scan 
         rooms = new LinkedHashMap<String, Room>();
-        nonRooms = new LinkedHashMap<String, WorldObject>();
+        nonRooms = new LinkedHashMap<String, WorldObject>(); // TODO remove nonrooms list? Not needed if everything will be stored elsewhere...
         // TODO implement non-room categories!
         String[] heads = {"Room", "Door", "Item", "Feature", "Lock"}; for (String s : heads) {headers.add(s);} // scan in head objects
     }
@@ -71,7 +71,7 @@ public class WorldLoad {
                     Room[] link = {lastRoom, rooms.get(_drake.getTitle())}; // get last room and room from Door title
                     Door _door = new Door(_drake.getTitle(), link); // create door instance 
                     for (Room r : link) {r.addDoor(_door);} // add door ref to both rooms
-                    nonRooms.put(_door.getName(), _door); // add door object to nonRooms list
+                    // TODO what to do if multiple doors connect the same doors? should a new door connector object be used to make sure only one works or?
                 } 
                 else if (_drake.isHead("Item")) { // not Room or Door object
                     Item _item = new Item(_drake.getTitle(), _drake.getTail());
