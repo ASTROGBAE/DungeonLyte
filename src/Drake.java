@@ -1,15 +1,29 @@
 import java.util.ArrayList;
 
+/**
+ * The class {@code Drake} defines a line in the Dracolysh language: including a header, title
+ * and tail. Allows for advanced operations in Dracolysh in comparing drakes
+ * and garnering information from them. See readme.md for more details
+ * 
+ * @author astrogbae 
+ */
+
 public class Drake {
 
+    // fields for the given syntax, as given in Dracolysh: Header[Title]: tail.
     private String head;
     private String title;
     private String tail;
 
-    // utility stuff
+    // regex class utilities 
     private String titleRegex = "\\[\\w+\\]"; // regex for title
     private String[] wrapperFullRegex = {"^", "*: "}; // regex to wrap front and back of full exp
 
+    /**
+     * create an instance of a drake from a scanned line of Dracolysh
+     * @param line a syntaxically correct line of Dracolysh 
+     */ // TODO add better error detection for incorrect line param?
+    
     public Drake(String line) { // constructor for drake object
         if (isDrake(line)) { // if valid drake string, add in values
             head = setHead(line);
@@ -19,11 +33,8 @@ public class Drake {
         System.out.println("Drake could not be created: " + line);}
     }
 
-    private String drakeRegex(String line) {
-        return wrapperFullRegex[0] + setHead(line) + titleRegex + wrapperFullRegex[1]; // header regex prefix and suffix
-    }
-
     // get methods
+
     public String getHead() {
         return head;
     }
@@ -41,7 +52,6 @@ public class Drake {
      * @return 1 if header is higher, -1 is lower, 0 if equal or header 
      */
     // TODO make header a class object with in-built comparison
-    // compare priority of header, if it exists in arraylist of headers
     public int compareToHeader(String header, ArrayList<String> headers) {
         if (headers.contains(this.getHead()) && headers.contains(header)) { // objects valid in headers
             int first = headers.indexOf(this.getHead());
@@ -52,7 +62,12 @@ public class Drake {
     }
 
     // set methods
-    // return string of head from line
+
+    /**
+     * 
+     * @param line Dracolysh String (a line)
+     * @return head String, 
+     */
     private String setHead(String line) {
         // check if has title
         // do regex based on that
@@ -63,13 +78,21 @@ public class Drake {
         return setBody(line);
     }
 
-    // get body (header+title or just header)
+    /**
+     * Get body of Dracolysh String line [head+title], only used in this class to help get header and title.
+     * @param line Dracolysh String (a line)
+     * @return body String, else return ""
+     */
     private String setBody(String line) {
         int bodyLength = line.indexOf(": ")+2; // get index of end of body
         return line.substring(0, bodyLength); // return body
     }
 
-    // return title from header if it exists, else return ""
+    /**
+     * 
+     * @param line Dracolysh String (a line)
+     * @return header String, else return ""
+     */
     private String setTitle(String line) {
         String body = setBody(line);
         if (!body.equals("") && body.matches(".*"+titleRegex+".*")) { // check if valid body and contails title and everything else
@@ -78,7 +101,11 @@ public class Drake {
         return "";
     }
 
-    // description of expression (after the body)
+    /**
+     * 
+     * @param line Dracolysh String (a line)
+     * @return tail String, else return ""
+     */
     // TODO what if no tail???
     private String setTail(String line) {
         String body = setBody(line);
@@ -89,19 +116,23 @@ public class Drake {
         return "";
     }
 
-    // return true if line is a valid drake expression, else false
+    /**
+     * Check if String is valid dracolysh syntax, only used in this class for construction
+     * @param line line of Dracolysh
+     * @return return true if line is a valid drake expression, else false
+     */
     private Boolean isDrake(String line) {
-        String regex = drakeRegex(line) + ".*"; // check matches entire line
+        String regex = wrapperFullRegex[0] + setHead(line) + titleRegex + wrapperFullRegex[1] + ".*"; // check matches entire line
         return line.matches(regex);
     }
 
+    /**
+     * return true if head of this drake equals String param 'h'
+     * @param h head String (must be a valid head)
+     * @return true if head matches, false otherwise 
+     */
     public Boolean isHead(String h) {
         if (head.equals(h)) {return true;} return false;
     }
 
-    // testing loop (delete later)
-    // public static void main(String[] args) throws Exception {
-    //     Drake _drake = new Drake("Room[antechamber]: a dank room");
-    //     System.out.println("eyy");
-    // }
 }
