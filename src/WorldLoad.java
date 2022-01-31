@@ -20,7 +20,10 @@ public class WorldLoad {
         String[] heads = {"Room", "Door", "Item", "Feature", "Lock"}; for (String s : heads) {headers.add(s);} // scan in head objects
     }
 
-    // return first room with connected objects 
+    /**
+     * scans game.txt for all possible WorldObjects
+     * @return room object that player begins in with reference connections to all over WorldObject's in the game
+     */
     // TODO init as an anonymous function???
     public Room loadGame() {
         for (String header : headers) { // perform a seperate scan per header object
@@ -48,7 +51,7 @@ public class WorldLoad {
                     higherObjName = curDrake.getTitle(); // TODO not working with door obj?
                 }
                 if (curDrake.isHead(_level)) { // if right level to make object
-                    drakeToObject (curDrake, higherObjName); // create dungeon item
+                    createWorldObject (curDrake, higherObjName); // create dungeon item
             }
             }
         }
@@ -56,7 +59,7 @@ public class WorldLoad {
     }
 
     // takes string and format parameters for each value and creates an appopriate dungeon object (not returned)
-    private void drakeToObject (Drake _drake, String _higherObjName) {
+    private void createWorldObject (Drake _drake, String _higherObjName) {
         if (_drake != null) {
             // TODO figure out if first used drake is not a head, causes error (when lastTitle == "" here)
             if (_drake.isHead("Room")) {
