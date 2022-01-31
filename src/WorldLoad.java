@@ -23,18 +23,14 @@ public class WorldLoad {
     // return first room with connected objects 
     // TODO init as an anonymous function???
     public Room loadGame() {
-        try { 
-            FileInputStream gameStream =new FileInputStream(fileToScan); scanLevels(gameStream);
-            return rooms.entrySet().iterator().next().getValue();
-        }
-        catch(IOException e)  {e.printStackTrace();}
-        return null; // TODO add optional clause in case IO doesn't work?
-    }
-
-    private void scanLevels(FileInputStream _gameStream) {
         for (String header : headers) { // perform a seperate scan per header object
-            scanLinesPerLevel(_gameStream, header); 
+            try { 
+                FileInputStream gameStream =new FileInputStream(fileToScan);
+                scanLinesPerLevel(gameStream, header); 
+            }
+            catch(IOException e)  {e.printStackTrace();}
         }
+        return rooms.entrySet().iterator().next().getValue();
     }
     
     // scan game at a specific header level, remembering the last head in precedence (for linear referencing purposes)
@@ -42,11 +38,11 @@ public class WorldLoad {
         //returns true if there is another line to read
         // TODO fix! only runs once
         Scanner gameScan = new Scanner(_gameStream); // new scan per level
+        String higherObjName = "";
         while(gameScan.hasNextLine())  { // scanning for rooms
             String lineToDrake = gameScan.nextLine();
             if (!lineToDrake.equals("")) { // if line not empty (ignore empty lines)
                 Drake curDrake = new Drake(lineToDrake); // create drake object for current level
-                String higherObjName = "";
 
                 if (curDrake.compareToHeader(_level, headers) < 0) { // if scan of current drake is higher than the level, get title of currrent drake for further reference
                     higherObjName = curDrake.getTitle(); // TODO not working with door obj?

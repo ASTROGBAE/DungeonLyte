@@ -34,13 +34,19 @@ public class Drake {
         return tail;
     }
 
-    // compare methods
+    /**
+     * Compare String header against an ordered array of headers
+     * @param header String header
+     * @param headers ordered list of String headers (containing header String)
+     * @return 1 if header is higher, -1 is lower, 0 if equal or header 
+     */
+    // TODO make header a class object with in-built comparison
     // compare priority of header, if it exists in arraylist of headers
     public int compareToHeader(String header, ArrayList<String> headers) {
         if (headers.contains(this.getHead()) && headers.contains(header)) { // objects valid in headers
             int first = headers.indexOf(this.getHead());
             int second = headers.indexOf(header);
-            return second - first;
+            return first - second;
         }
         return 0;
     }
