@@ -7,15 +7,11 @@ import java.util.Scanner;
 
 public class WorldLoad {
     
-    private Map<String, Room> rooms;
-    private Map<String, WorldObject> nonRooms;
     private ArrayList<String> headers = new ArrayList<String>();
     private String fileToScan;
 
     public WorldLoad(String _fileToScan) {
         fileToScan = "data/"+_fileToScan; // init file of scan 
-        rooms = new LinkedHashMap<String, Room>();
-        nonRooms = new LinkedHashMap<String, WorldObject>(); // TODO remove nonrooms list? Not needed if everything will be stored elsewhere...
         // TODO implement non-room categories!
         String[] heads = {"Room", "Door", "Item", "Feature", "Lock"}; for (String s : heads) {headers.add(s);} // scan in head objects
     }
@@ -26,20 +22,21 @@ public class WorldLoad {
      */
     // TODO init as an anonymous function???
     public Room loadGame() {
+        Map<String, WorldObject> worldObjectsMap = new LinkedHashMap<String, WorldObject>(); // define worldobject maps to be used during loading and linking of objects, disgarded later
         for (String header : headers) { // perform a seperate scan per header object
             try { 
                 FileInputStream gameStream =new FileInputStream(fileToScan);
-                scanLinesPerLevel(gameStream, header); 
+                scanLinesPerLevel(gameStream, header, worldObjectsMap); 
             }
             catch(IOException e)  {e.printStackTrace();}
         }
-        return rooms.entrySet().iterator().next().getValue();
+        return (Room) worldObjectsMap.entrySet().iterator().next().getValue(); // return first object in map, can only syntatically be a Room object
     }
     
     // scan game at a specific header level, remembering the last head in precedence (for linear referencing purposes)
-    private void scanLinesPerLevel(FileInputStream _gameStream, String _level) {
+    private void scanLinesPerLevel(FileInputStream _gameStream, String _level, Map<String, WorldObject> _worldObjectsMap) {
         //returns true if there is another line to read
-        // TODO fix! only runs once
+        // TODO fix! only runs once // TODO think this is fixed? check!
         Scanner gameScan = new Scanner(_gameStream); // new scan per level
         String higherObjName = "";
         while(gameScan.hasNextLine())  { // scanning for rooms
@@ -51,7 +48,7 @@ public class WorldLoad {
                     higherObjName = curDrake.getTitle(); // TODO not working with door obj?
                 }
                 if (curDrake.isHead(_level)) { // if right level to make object
-                    createWorldObject (curDrake, higherObjName); // create dungeon item
+                    createWorldObject (curDrake, higherObjName, _worldObjectsMap); // create dungeon item
             }
             }
         }
@@ -59,30 +56,37 @@ public class WorldLoad {
     }
 
     // takes string and format parameters for each value and creates an appopriate dungeon object (not returned)
-    private void createWorldObject (Drake _drake, String _higherObjName) {
+    private void createWorldObject (Drake _drake, String _higherObjName, Map<String, WorldObject> _worldObjectsMap) {
         if (_drake != null) {
             // TODO figure out if first used drake is not a head, causes error (when lastTitle == "" here)
+            /**
+             * Creation of Rooms
+             */
             if (_drake.isHead("Room")) {
-                rooms.put(_drake.getTitle(), new Room(_drake.getTitle(), _drake.getTail())); // TODO refactor usage of title?
+                Room _room = new Room(_drake.getTitle(), _drake.getTail());
+                _worldObjectsMap.put(_drake.getTitle(), _room); // TODO refactor usage of title?
             }
             if (!_higherObjName.equals("")) { // if drake is below door level, need a previous object to be read in
-                Room lastRoom = rooms.get(_higherObjName);
-                if (_drake.isHead("Door")) { // door object (add links)
-                    Room[] link = {lastRoom, rooms.get(_drake.getTitle())}; // get last room and room from Door title
+                WorldObject lastObj = _worldObjectsMap.get(_higherObjName);
+                /**
+                 * Creation of Door, Item or Features
+                 */
+                if (_drake.isHead("Door")) { // door object, will throw error if lastObj and title are NOT door objects TODO add proper type checking later?
+                    Room[] link = {(Room)lastObj, (Room)_worldObjectsMap.get(_drake.getTitle())}; // get last room and room from Door title, typecheck they are Room objects
                     Door _door = new Door(_drake.getTitle(), link); // create door instance 
                     for (Room r : link) {r.addDoor(_door);} // add door ref to both rooms
                     // TODO what to do if multiple doors connect the same doors? should a new door connector object be used to make sure only one works or?
                 } 
                 else if (_drake.isHead("Item")) { // not Room or Door object
-                    Item _item = new Item(_drake.getTitle(), _drake.getTail());
-                    nonRooms.put(_drake.getTitle(), _item);
-                    getWorldObject(_higherObjName).addToStore(_item);
+                    Item _item = new Item(_drake.getTitle(), _drake.getTail()); // create item object
+                    _worldObjectsMap.put(_drake.getTitle(), _item); // put in worldObjects list for later reference
+                    getWorldObject(_higherObjName, _worldObjectsMap).addToStore(_item); // add to parent worldObject
                     // TODO refactor so that you can include Room/Door in 
                 } 
                 else if (_drake.isHead("Feature")) { // "Feature" option, TODO can only get once
                     Feature _feature = new Feature(_drake.getTitle(), _drake.getTail());
-                    nonRooms.put(_drake.getTitle(), new Feature(_drake.getTitle(), _drake.getTail()));
-                    getWorldObject(_higherObjName).addToStore(_feature); // if not full, add
+                    _worldObjectsMap.put(_drake.getTitle(), new Feature(_drake.getTitle(), _drake.getTail())); // put in worldObjects list for later reference
+                    getWorldObject(_higherObjName, _worldObjectsMap).addToStore(_feature); // if not full, add
                     // TODO refactor this, collapse options!
                     // TODO add "lock" option!
                 }
@@ -94,11 +98,9 @@ public class WorldLoad {
         }
     }
 
-    private WorldObject getWorldObject(String title) {
-        if (rooms.containsKey(title)) {
-            return rooms.get(title);
-        } else if (nonRooms.containsKey(title)) {
-            return nonRooms.get(title);
+    private WorldObject getWorldObject(String title, Map<String, WorldObject> _worldObjectsMap) {
+        if (_worldObjectsMap.containsKey(title)) {
+            return _worldObjectsMap.get(title);
         }
         return null;
     }
