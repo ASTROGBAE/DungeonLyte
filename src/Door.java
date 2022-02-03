@@ -8,8 +8,26 @@ public class Door extends WorldObject {
      * @param _link
      */
     public Door(String _desc, Room[] _link) {
-        super(_desc); 
+        super(_link[0].getName()+"/"+_link[1].getName(), _desc); // define name as 'doorname/doorname' str
         link = _link;
+    }
+    
+    /**
+     * Check the String names of Room objects match, regardless of which link is first in the Door list
+     * @param firstRoom one Room that is connected (order doesn't matter)
+     * @param secondRoom one Room that is connected (order doesn't matter)
+     * @return true if both Rooms match, false otherwise
+     */
+    public Boolean matchesRooms(Room firstRoom, Room secondRoom){
+        String[] thisNames = {link[0].getName(), link[1].getName()};
+        String[] otherNames = {firstRoom.getName(), firstRoom.getName()}; 
+        if (thisNames[0].equals(otherNames[0]) && thisNames[1].equals(otherNames[1])) {
+            return true;
+        }
+        else if (thisNames[0].equals(otherNames[1]) && thisNames[0].equals(otherNames[1])) {
+            return true;
+        }
+        return false; 
     }
     
 }
