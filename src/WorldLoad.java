@@ -7,13 +7,11 @@ import java.util.Scanner;
 
 public class WorldLoad {
     
-    private ArrayList<String> headers = new ArrayList<String>();
     private String fileToScan;
 
     public WorldLoad(String _fileToScan) {
         fileToScan = "data/"+_fileToScan; // init file of scan 
-        // TODO implement non-room categories!
-        String[] heads = {"Room", "Door", "Item", "Feature", "Lock"}; for (String s : heads) {headers.add(s);} // scan in head objects
+        // TODO implement non-room categories! (wah?)
     }
 
     /**
@@ -23,6 +21,7 @@ public class WorldLoad {
     // TODO init as an anonymous function???
     public Room loadGame() {
         Map<String, WorldObject> worldObjectsMap = new LinkedHashMap<String, WorldObject>(); // define worldobject maps to be used during loading and linking of objects, disgarded later
+        Map<String, Header> headers = new LinkedHashMap<String, Header>(); 
         for (String header : headers) { // perform a seperate scan per header object
             try { 
                 FileInputStream gameStream =new FileInputStream(fileToScan);
@@ -114,6 +113,15 @@ public class WorldLoad {
             return _worldObjectsMap.get(title);
         }
         return null;
+    }
+
+    private Map<String, Header> getHeaderMap() {
+        Header toGetHeaders = new Header("Room"); // TODO make this more elegent? Kinda weird way of getting the list...
+        String[] heads = toGetHeaders.getHeaderArr(); // TODO idk, make a 'headers' object to return instead? this is kinda shite...
+        // TODO maybe have a 'headers' class instead of just heads, use that instead and compare strings
+        Map<String, Header> map = new LinkedHashMap<String, Header>(); // map to return
+        for (String h : heads) {map.put(h, new Head(h));}
+        return map;
     }
 
     // TODO add functionality for comments?

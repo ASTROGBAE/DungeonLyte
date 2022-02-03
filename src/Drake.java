@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Drake {
 
     // fields for the given syntax, as given in Dracolysh: Header[Title]: tail.
-    private String head;
+    private Header head; // converted to header object
     private String title;
     private String tail;
 
@@ -24,7 +24,7 @@ public class Drake {
      * @param line a syntaxically correct line of Dracolysh 
      */ // TODO add better error detection for incorrect line param?
     
-    public Drake(String line) { // constructor for drake object
+    public Drake(String line, ArrayList<Header> _headers) { // constructor for drake object
         if (isDrake(line)) { // if valid drake string, add in values
             head = setHead(line);
             title = setTitle(line); // add title if it exists, else it is ""
@@ -43,22 +43,6 @@ public class Drake {
     }
     public String getTail() {
         return tail;
-    }
-
-    /**
-     * Compare String header against an ordered array of headers
-     * @param header String header
-     * @param headers ordered list of String headers (containing header String)
-     * @return 1 if header is higher, -1 is lower, 0 if equal or header 
-     */
-    // TODO make header a class object with in-built comparison
-    public int compareToHeader(String header, ArrayList<String> headers) {
-        if (headers.contains(this.getHead()) && headers.contains(header)) { // objects valid in headers
-            int first = headers.indexOf(this.getHead());
-            int second = headers.indexOf(header);
-            return first - second;
-        }
-        return 0;
     }
 
     // set methods
