@@ -87,10 +87,21 @@ public class WorldLoad {
                     Feature _feature = new Feature(_drake.getTitle(), _drake.getTail());
                     _worldObjectsMap.put(_drake.getTitle(), new Feature(_drake.getTitle(), _drake.getTail())); // put in worldObjects list for later reference
                     getWorldObject(_higherObjName, _worldObjectsMap).addToStore(_feature); // if not full, add
-                    // TODO refactor this, collapse options!
-                    // TODO add "lock" option!
                 }
-            }
+                else if (_drake.isHead("Lock")) { // "Lock" option
+                    Lock _lock = new Lock(_drake.getTitle(), _drake.getTail()); // create Lock object
+                    _worldObjectsMap.put(_drake.getTitle(), new Feature(_drake.getTitle(), _drake.getTail())); // put in worldObjects list for later reference
+                    getWorldObject(_higherObjName, _worldObjectsMap).addLock(_lock); // if not full, add
+                    // TODO refactor this, collapse options!    
+                }
+                else if (_drake.isHead("Unlock")) { // "Unlock" option, no actual unlock obj, will add item or feature to unlock condition
+                // TODO add option for doors or rooms for if they are discovered/travelled or not?
+                    Lock parentLock = (Lock) getWorldObject(_higherObjName, _worldObjectsMap); // get parent lock
+                    WorldObject unlock = getWorldObject(_drake.getTitle(), _worldObjectsMap); // get unlock world object
+                    parentLock.addUnlockObject(unlock); // add unlock object ref to lock
+                    
+                } 
+            } // TODO refactor all these, collapse options!   
         }
         else {
             // invalid Drake object!

@@ -5,6 +5,7 @@ import java.util.ArrayList;
  */
 public abstract class WorldObject {
     protected String name, desc;
+    ArrayList<Lock> locks;
     ArrayList<WorldObject> store;
 
     public WorldObject(String _name, String _desc) {
@@ -12,6 +13,7 @@ public abstract class WorldObject {
         name = _name;
         desc = _desc;
         store = new ArrayList<WorldObject>();
+        locks = new ArrayList<Lock>();
 
     }
 
@@ -24,8 +26,27 @@ public abstract class WorldObject {
         return desc;
     }
 
+    // boolean checks
+
+    /**
+     * check if any lock object conneted to this WorldObject is locked
+     * @return return true if any connected lock is locked, false otherwise
+     */
+    public Boolean isLocked() {
+        for (Lock l : locks) {
+            if (l.isLocked()) {return true;}
+        }
+        return false;
+    }
+
+    // construction methods
+
     public void addToStore(WorldObject _add) {
         store.add(_add); 
+    }
+
+    public void addLock(Lock _add) {
+        locks.add(_add); 
     }
 
         // TODO add characteristics to all world objects, allowing them to hold world objects lower in precedence than them? 
