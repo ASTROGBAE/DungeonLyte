@@ -71,6 +71,8 @@ public class WorldLoad {
                  * Creation of Door, Item or Features
                  */
                 if (_drake.isHead("Door")) { // door object, will throw error if lastObj and title are NOT door objects TODO add proper type checking later?
+                    // TODO add clauses for if [] 
+                    // if title == "", then treat as end door TODO add end door option to Door, means end of game, or make it a room?
                     Room[] link = {(Room)lastObj, (Room)_worldObjectsMap.get(_drake.getTitle())}; // get last room and room from Door title, typecheck they are Room objects
                     Door _door = new Door(_drake.getTitle(), link); // create door instance 
                     for (Room r : link) {r.addDoor(_door);} // add door ref to both rooms
