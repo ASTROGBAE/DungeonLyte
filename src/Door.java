@@ -9,9 +9,17 @@ public class Door extends WorldObject {
      */
     public Door(String _desc, Room[] _link) {
         super(_link[0].getName()+"/"+_link[1].getName(), _desc); // define name as 'doorname/doorname' str
+    }
+
+    // set methods for factory, before being added to list
+    public void setLink(Room[] _link) {
+        name = getDoorName(_link[0], _link[1]);
         link = _link;
     }
     
+    public String getDoorName(Room r1, Room r2) {
+        return r1.getName()+"/"+r2.getName();
+    }
     /**
      * Check the String names of Room objects match, regardless of which link is first in the Door list
      * @param firstRoom one Room that is connected (order doesn't matter)

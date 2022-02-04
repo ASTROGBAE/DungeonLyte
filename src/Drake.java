@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Drake {
 
     // fields for the given syntax, as given in Dracolysh: Header[Title]: tail.
-    private Header head; // converted to header object
+    private String head; // converted to header object
     private String title;
     private String tail;
 
@@ -24,7 +24,7 @@ public class Drake {
      * @param line a syntaxically correct line of Dracolysh 
      */ // TODO add better error detection for incorrect line param?
     
-    public Drake(String line, ArrayList<Header> _headers) { // constructor for drake object
+    public Drake(String line) { // constructor for drake object
         if (isDrake(line)) { // if valid drake string, add in values
             head = setHead(line);
             title = setTitle(line); // add title if it exists, else it is ""

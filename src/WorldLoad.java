@@ -21,7 +21,7 @@ public class WorldLoad {
     // TODO init as an anonymous function???
     public Room loadGame() {
         Map<String, WorldObject> worldObjectsMap = new LinkedHashMap<String, WorldObject>(); // define worldobject maps to be used during loading and linking of objects, disgarded later
-        Map<String, Header> headers = new LinkedHashMap<String, Header>(); 
+        Map<String, Headers> headers = new LinkedHashMap<String, Headers>(); 
         for (String header : headers) { // perform a seperate scan per header object
             try { 
                 FileInputStream gameStream =new FileInputStream(fileToScan);
@@ -117,11 +117,11 @@ public class WorldLoad {
         return null;
     }
 
-    private Map<String, Header> getHeaderMap() {
-        Header toGetHeaders = new Header("Room"); // TODO make this more elegent? Kinda weird way of getting the list...
+    private Map<String, Headers> getHeaderMap() {
+        Headers toGetHeaders = new Headers("Room"); // TODO make this more elegent? Kinda weird way of getting the list...
         String[] heads = toGetHeaders.getHeaderArr(); // TODO idk, make a 'headers' object to return instead? this is kinda shite...
         // TODO maybe have a 'headers' class instead of just heads, use that instead and compare strings
-        Map<String, Header> map = new LinkedHashMap<String, Header>(); // map to return
+        Map<String, Headers> map = new LinkedHashMap<String, Headers>(); // map to return
         for (String h : heads) {map.put(h, new Head(h));}
         return map;
     }
