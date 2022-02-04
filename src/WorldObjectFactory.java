@@ -3,18 +3,19 @@ import java.util.Map;
 
 public class WorldObjectFactory {
     // TODO integrate header objects into code (not yet done, class unused)
-    private String[] headArr = {"Room", "Door", "Item", "Feature", "Lock", "Unlock"}; // all headers used in Dracolysh
-    private Map<String, WorldObject> worldObjectsMap;
     // TODO make sure class encapsulation in each class...
 
-    public WorldObjectFactory(LinkedHashMap<String, WorldObject> _worldObjectsMap) {
-        worldObjectsMap = _worldObjectsMap; // define worldobject maps to be used during loading and linking of objects, disgarded later
+    // TODO add factory design pattern patterning (loookup)
+    public WorldObject create(Drake _drake, WorldObject titleObject, WorldObject higherObject) {
+        WorldObject currentObject = getBaseObject (_drake);
+        if (currentObject != null) {
+            return getLinkedObject (currentObject, titleObject, higherObject); // link current object
+        }
+        return null; // invalid drake
     }
 
-    // TODO add Map<String, WorldObject> _worldObjectsMap
-
     //
-    private WorldObject getLinkedWorldObject (WorldObject _current, WorldObject _title, WorldObject _higher) {
+    private WorldObject getLinkedObject (WorldObject _current, WorldObject _title, WorldObject _higher) {
         if (_current != null && _title != null) {
             /**
              * Creation of Door, Item or Features
@@ -73,7 +74,7 @@ public class WorldObjectFactory {
     }
     
     // takes string and format parameters for each value and creates an appopriate dungeon object (not returned)
-    private WorldObject drakeToWorldObject (Drake _drake) {
+    private WorldObject getBaseObject (Drake _drake) {
         if (_drake != null) {
             if (_drake.isHead("Room")) {
                 return new Room(_drake.getTitle(), _drake.getTail());
