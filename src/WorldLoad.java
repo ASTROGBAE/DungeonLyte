@@ -9,12 +9,14 @@ public class WorldLoad {
     
     private String fileToScan;
     private String[] headers = {"Room", "Door", "Item", "Feature", "Lock", "Unlock"}; // all headers used in Dracolysh
+    ArrayList<String> headerList;
     Map<String,WorldObject> worldObjectMap;
     WorldObjectFactory factory;
 
     public WorldLoad(String _fileToScan) {
         fileToScan = "data/"+_fileToScan; // init file of scan 
         worldObjectMap = new LinkedHashMap<String,WorldObject>();
+        for (String s : headers) {headerList.add(s);} // scan in head objects // TODO make this more efficient? just makes head object arraylist before even seeing if valid...
         factory = new WorldObjectFactory();
         // TODO implement non-room categories! (wah?)
     }
@@ -45,33 +47,17 @@ public class WorldLoad {
         while(gameScan.hasNextLine())  { // scanning for rooms
             String lineToDrake = gameScan.nextLine();
             if (!lineToDrake.equals("")) { // if line not empty (ignore empty lines)
-                Drake curDrake = new Drake(lineToDrake); // create drake object for current level
+                Drake drake = new Drake(lineToDrake); // create drake object for current level
 
-                if (curDrake.compareToHeader(_header, headers) < 0) { // if scan of current drake is higher than the level, get title of currrent drake for further reference
-                    higherObjName = curDrake.getTitle(); // TODO not working with door obj?
+                if (drake.compareToHeader(_header, headerList) < 0) { // if scan of current drake is higher than the level, get title of currrent drake for further reference
+                    higherObjName = drake.getTitle(); // TODO not working with door obj?
                 }
-                if (curDrake.isHead(_header)) { // if right level to make object
-                    createWorldObject (curDrake, higherObjName, _worldObjectsMap); // create dungeon item
+                if (drake.isHead(_header)) { // if right level to make object
+                    factory.create(drake, higherObjName);// create dungeon item
             }
             }
         }
         gameScan.close(); // create new scanner, update rooms to return, close scanner
-    }
-
-    private WorldObject getWorldObject(String title, Map<String, WorldObject> _worldObjectsMap) {
-        if (_worldObjectsMap.containsKey(title)) {
-            return _worldObjectsMap.get(title);
-        }
-        return null;
-    }
-
-    private Map<String, Headers> getHeaderMap() {
-        Headers toGetHeaders = new Headers("Room"); // TODO make this more elegent? Kinda weird way of getting the list...
-        String[] heads = toGetHeaders.getHeaderArr(); // TODO idk, make a 'headers' object to return instead? this is kinda shite...
-        // TODO maybe have a 'headers' class instead of just heads, use that instead and compare strings
-        Map<String, Headers> map = new LinkedHashMap<String, Headers>(); // map to return
-        for (String h : heads) {map.put(h, new Head(h));}
-        return map;
     }
 
     // TODO add functionality for comments?
