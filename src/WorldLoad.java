@@ -16,6 +16,7 @@ public class WorldLoad {
     public WorldLoad(String _fileToScan) {
         fileToScan = "data/"+_fileToScan; // init file of scan 
         worldObjectMap = new LinkedHashMap<String,WorldObject>();
+        headerList = new ArrayList<String>();
         for (String s : headers) {headerList.add(s);} // scan in head objects // TODO make this more efficient? just makes head object arraylist before even seeing if valid...
         factory = new WorldObjectFactory();
         // TODO implement non-room categories! (wah?)

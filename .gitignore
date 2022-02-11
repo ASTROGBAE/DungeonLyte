@@ -1,1 +1,2 @@
-bin
+git rm -r --cached *.class
+*.class

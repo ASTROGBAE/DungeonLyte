@@ -39,9 +39,9 @@ public class WorldObjectFactory {
             if (higherObject != null) { // lower than room, requires a higher object to work
 
                 if (_drake.isHead("Door")) { // door object, will throw error if lastObj and title are NOT door objects TODO add proper type checking later?
-                    Door door = new Door(_drake.getTitle(), null); // create door instance 
                     Room titleRoom = (Room)getObject(_drake.getTitle());
                     Room[] link = {titleRoom, (Room)higherObject}; // get last room and room from Door title, typecheck they are Room objects
+                    Door door = new Door(_drake.getTitle(), link); // create door instance 
                     door.setLink(link);
                     titleRoom.addDoor(door); ((Room)higherObject).addDoor(door);
                     addObjectToMap(door); return door;
