@@ -20,6 +20,10 @@ public class World {
         return room;
     }
 
+    public String getRoomDescription() {
+        return room.getDescription();
+    }
+
     public ArrayList<Door> getCurrentDoors() {
         return roomDoors;
     }
