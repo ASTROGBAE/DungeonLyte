@@ -20,6 +20,15 @@ public class Door extends WorldObject {
     public String getDoorName(Room r1, Room r2) {
         return r1.getName()+"/"+r2.getName();
     }
+
+    public Room getOtherRoom(Room selfRoom) {
+        if (link != null && link.length == 2) {
+            if (selfRoom.equals(link[0])) {return link[1];}
+            else if (selfRoom.equals(link[1])) {return link[0];}
+        }
+        return null;
+    }
+
     /**
      * Check the String names of Room objects match, regardless of which link is first in the Door list
      * @param firstRoom one Room that is connected (order doesn't matter)

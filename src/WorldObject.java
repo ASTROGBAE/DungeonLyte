@@ -26,6 +26,10 @@ public abstract class WorldObject {
         return desc;
     }
 
+    public ArrayList<WorldObject> getStore() {
+        return store;
+    }
+
     // boolean checks
 
     /**

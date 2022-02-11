@@ -13,6 +13,10 @@ public class Room extends WorldObject {
         doors.add(_door);
     }
 
+    public ArrayList<Door> getDoors() {
+        return doors;
+    }
+
     public String toString() {
         return "Door name: " + name + ", desc: " + desc + ", doors: " + doors.toString();
     }
