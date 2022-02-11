@@ -19,14 +19,14 @@ public class GameLoop {
         String answer = null;
 
         while (running) {
-            responce(answer);
-            answer = question();
+            describeRoom();
+            promptRoomChange();
         }
     }
 
     // TODO encapsulate Room objects within World, so this does not need to access it. This should only access basic objects like strings, booleans etc. 
 
-    private Room requestRoomChange() {
+    private void promptRoomChange() {
         System.out.print("Enter a number from one of the prompts below: \n\n"); // pick random choice from above
         ArrayList<Door> choices = world.getCurrentDoors();
         for (int i = 0; i < choices.size(); i ++) {
@@ -37,29 +37,28 @@ public class GameLoop {
         try {
             int answer = Integer.parseInt(scan.nextLine()); // prompt user input
             if (answer > 0 && answer < choices.size()) { // valid number enteres
-                return choices.get(answer).getOtherRoom(world.getRoom()); // get other room
+                if () {
+
+                }
+                Door openDoor = choices.get(answer); // get target door
+                world.moveThroughDoor(openDoor); // update world to new door, update to new room
             } else {
                 // in out of bounds
             }
         } catch (NumberFormatException e) {
             // invalid input (not an int)
         }
-        return null;
     }
 
-    private String responce(String _answer) {
-        if (_answer == null) {
-            // beginning of game
-            String re = world.getRoomDescription();
-            for (Door door : world.getCurrentDoors()) {
-                re += door.getDescription() + " ";
-            }
-            return re+"\n";
+    private void describeRoom() {
+
+        
+
+        String description = world.getRoomDescription()+" ";
+        for (Door door : world.getCurrentDoors()) {
+            description += door.getDescription() + " ";
         }
-        else if (_answer.equals("")) {
-            // empty string
-        }
-        return "";
+        System.out.print(description+"\n\n");
     }
 
 }

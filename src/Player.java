@@ -13,15 +13,15 @@ public class Player extends WorldObject {
         encounters = new ArrayList<WorldObject>();
     }
 
-    public void getItem(Item _item) {
+    public void addItem(Item _item) {
         if (_item != null) {
             items.add(_item);
         } 
     }
 
-    public boolean getFeature(Item _feature) {
+    public boolean addFeature(Feature _feature) {
         if (_feature != null && !features.contains(_feature)) {
-            items.add(_feature);
+            features.add(_feature);
         } 
         return false;
     }

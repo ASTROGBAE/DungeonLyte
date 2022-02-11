@@ -32,7 +32,7 @@ public class World {
         return roomDoors;
     }
 
-    private boolean updateRoom(Room _room) {
+    public boolean updateRoom(Room _room) {
         if (room == null || room != _room) { // not already the same room or just at start so set to null
             room = _room;
             roomDoors = room.getDoors();
@@ -41,11 +41,33 @@ public class World {
         return false;
     }
 
-    public boolean moveThroughDoor(Door _door) {
+    public Room getOtherRoom(Door _door) { // TODO what to do with void objects returning booleans? Make a better system!
         if (roomDoors.contains(_door)) { // valid door to move through
-            updateRoom(_door.getOtherRoom(room));// update values
+            return _door.getOtherRoom(room);// update values
         }
-        return false;
+        return null;
+    }
+
+    public void playerPickUp() {
+        playerPickUpObjects(room);
+    }
+
+    public void playerPickUpObjects(WorldObject current) { // recursive yum yum object
+        if (current != null) {
+            if (current instanceof Item) { // adding items logic
+                player.addItem((Item)current);
+            }
+            else if (current instanceof Feature) {
+                player.addFeature((Feature)current);
+            }
+            // check current store, call method again on stored objects...
+            ArrayList<WorldObject> roomStore = room.getStore(); // TODO is this too robust? 
+            if (!roomStore.isEmpty()) { // things in store...
+                for (WorldObject object : roomStore) {
+                    playerPickUpObjects(object); // recursive loop on all world objects...
+                }
+            }
+        }
     }
 
 }
