@@ -1,4 +1,4 @@
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 public class WorldObjectFactory {
@@ -6,15 +6,17 @@ public class WorldObjectFactory {
     // TODO make sure class encapsulation in each class...
 
     Map<String,WorldObject> worldObjectMap;
+    Room firstRoom; boolean firstRoomFound;
 
     public WorldObjectFactory() {
-        worldObjectMap = new LinkedHashMap<String,WorldObject>();
+        worldObjectMap = new HashMap<String,WorldObject>();
+        firstRoomFound = false;
     }
 
     // TODO add factory design pattern patterning (loookup)
 
     public Room getFirstRoom() {
-        return (Room)worldObjectMap.entrySet().iterator().next().getValue();
+        return firstRoom;
     }
 
     // return world object, null if it does not exist
@@ -32,6 +34,7 @@ public class WorldObjectFactory {
         if (_drake != null) {
             if (_drake.isHead("Room")) {
                 Room room = new Room(_drake.getTitle(), _drake.getTail()); 
+                if (!firstRoomFound) {firstRoom = room; firstRoomFound = true;} // find first room, set to true.
                 addObjectToMap(room); return room;
             }
 

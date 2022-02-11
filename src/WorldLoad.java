@@ -10,12 +10,10 @@ public class WorldLoad {
     private String fileToScan;
     private String[] headers = {"Room", "Door", "Item", "Feature", "Lock", "Unlock"}; // all headers used in Dracolysh
     ArrayList<String> headerList;
-    Map<String,WorldObject> worldObjectMap;
     WorldObjectFactory factory;
 
     public WorldLoad(String _fileToScan) {
         fileToScan = "data/"+_fileToScan; // init file of scan 
-        worldObjectMap = new LinkedHashMap<String,WorldObject>();
         headerList = new ArrayList<String>();
         for (String s : headers) {headerList.add(s);} // scan in head objects // TODO make this more efficient? just makes head object arraylist before even seeing if valid...
         factory = new WorldObjectFactory();
@@ -32,15 +30,15 @@ public class WorldLoad {
         for (String header : headers) { // perform a seperate scan per header object
             try { 
                 FileInputStream gameStream =new FileInputStream(fileToScan);
-                scanLinesPerLevel(gameStream, header); 
+                scanPerHead(gameStream, header); 
             }
             catch(IOException e)  {e.printStackTrace();}
         }
-        return null; // return room
+        return factory.getFirstRoom(); // return room
     }
     
     // scan game at a specific header level, remembering the last head in precedence (for linear referencing purposes)
-    private void scanLinesPerLevel(FileInputStream _gameStream, String _header) {
+    private void scanPerHead(FileInputStream _gameStream, String _header) {
         //returns true if there is another line to read
         // TODO fix! only runs once // TODO think this is fixed? check!
         Scanner gameScan = new Scanner(_gameStream); // new scan per level
