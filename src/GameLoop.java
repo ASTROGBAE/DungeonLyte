@@ -65,7 +65,7 @@ public class GameLoop {
     // print a numbered list of door titles, before user action
     private void printDoorTitleList() { // TODO maybe change world name of "room" to current to make it less confusing?
         ArrayList<Door> choices = world.getCurrentDoors(); // get list of current doors
-        for (int i = 0; i < choices.size(); i ++) { // print out name of each door with number as an option
+        for (int i = 1; i <= choices.size(); i ++) { // print out name of each door with number as an option (size not idx)
             System.out.println(i + ": " + choices.get(i).getName());
         }
     }
@@ -74,11 +74,11 @@ public class GameLoop {
     // return true if user prompt worked, false otherwise
     private Boolean printUserAction() {
         ArrayList<Door> choices = world.getCurrentDoors(); // get list of current doors
-        System.out.println("Enter a valid choice (1-" + choices.size() + "): "); // prompt valid number
+        System.out.print("Enter a valid choice (1-" + choices.size() + "): "); // prompt valid number
         try { // attempt user input
-            int answer = Integer.parseInt(scan.nextLine()); // prompt user input, get answer as int
-            if (answer > 0 && answer < choices.size()) { // valid number entered
-                Door openDoor = choices.get(answer-1); // get target door based on number, -1 to convert to index from length
+            int ansIdx = Integer.parseInt(scan.nextLine())-1; // prompt user input, get answer as int, -1 to convert to index
+            if (ansIdx >= 0 && ansIdx < choices.size()) { // valid number entered
+                Door openDoor = choices.get(ansIdx-1); // get target door based on number
                 if (world.moveThroughDoor(openDoor)) {return true;} // update world to new door, update to new room
             } else {
                 // in out of bounds, but still an int TODO fix up edge cases
