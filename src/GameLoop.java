@@ -65,8 +65,9 @@ public class GameLoop {
     // print a numbered list of door titles, before user action
     private void printDoorTitleList() { // TODO maybe change world name of "room" to current to make it less confusing?
         ArrayList<Door> choices = world.getCurrentDoors(); // get list of current doors
-        for (int i = 1; i <= choices.size(); i ++) { // print out name of each door with number as an option (size not idx)
-            System.out.println(i + ": " + choices.get(i).getName());
+        for (int i = 0; i < choices.size(); i ++) { // print out name of each door with number as an option
+            int input = i+1; // +1 for option, not index
+            System.out.println(input + ": " + choices.get(i).getName());
         }
     }
 
