@@ -6,5 +6,5 @@ public class Main {
         game.run();
         System.out.println("Done!");
 
-    }
+    } // TODO out of bounds when traversing world, check issues
 }
