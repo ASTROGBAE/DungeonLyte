@@ -41,6 +41,23 @@ public class World {
         return false;
     }
 
+    // return true if room is not null, false otherwise
+    boolean hasRoom() {
+        if (room != null) {
+            return true;
+        } return false;
+    }
+
+    // check if current room is connected to param room by any doors //TODO is this even needed wtf
+    public boolean roomConnected(Room _room) {
+        for (Door d : room.getDoors()) {
+            if (d.getOtherRoom(room).equals(_room)) { // check if room exists in any connected door
+                return true; 
+            }
+        }
+        return false; 
+    }
+
     public Room getOtherRoom(Door _door) { // TODO what to do with void objects returning booleans? Make a better system!
         if (roomDoors.contains(_door)) { // valid door to move through
             return _door.getOtherRoom(room);// update values
@@ -68,6 +85,15 @@ public class World {
                 }
             }
         }
+    }
+
+    // prompt from room object to move through a door, updating room object for this world to new room
+    // return true if successful
+    public Boolean moveThroughDoor(Door openDoor) { // TODO make this boolean so it works out!
+        if (room.getDoors().contains(openDoor)) {
+            room = openDoor.getOtherRoom(room) ; // change door to other
+            return true;
+        } return false;
     }
 
 }

@@ -1,8 +1,9 @@
 public class Main {
 
-    static World dungeon;
+    static GameLoop game;
     public static void main(String[] args) throws Exception {
-        dungeon = new World();
+        game = new GameLoop();
+        game.run();
         System.out.println("Done!");
 
     }
