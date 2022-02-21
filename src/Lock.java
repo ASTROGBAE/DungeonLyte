@@ -1,10 +1,10 @@
 public class Lock extends WorldObject {
 
     protected boolean locked;
-    protected WorldObject unlockObject;
+    protected WorldObject keyObject;
 
     /**
-     * unlocked until unlock
+     * Locked until unlocked
      * @param _name
      * @param _desc
      */
@@ -17,10 +17,10 @@ public class Lock extends WorldObject {
         return locked;
     }
 
-    public void addUnlockObject(WorldObject _unlock) {
+    public void addkeyObject(WorldObject _key) {
         // TODO perhaps add "lockable" condition/parent to throw type cheking?
-        if (_unlock instanceof Item || _unlock instanceof Feature) {
-            unlockObject = _unlock;
+        if (_key instanceof Item || _key instanceof Feature) {
+            keyObject = _key;
         }
         //else {bad!} TODO, throw error?
     }

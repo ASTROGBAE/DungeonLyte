@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class WorldLoad {
     
     private String fileToScan;
-    private String[] headers = {"Room", "Door", "Item", "Feature", "Lock", "Unlock"}; // all headers used in Dracolysh
+    private String[] headers = {"Room", "Door", "Item", "Feature", "Lock", "Key"}; // all headers used in Dracolysh
     ArrayList<String> headerList;
     WorldObjectFactory factory;
 
