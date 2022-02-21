@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class GameLoop {
 
+    static boolean running = true;
     static World world;
     Random rand;
     Scanner scan;
@@ -18,10 +19,11 @@ public class GameLoop {
     
     public void run() {
         if (world.hasRoom()) { // world has room, can run
-            boolean running = true;
+            running = true;
 
             while (running) {
-                printRoomAndDoors(); printNewLine(1); 
+                printNewLine(10); // clean console for new title 
+                printDescription(); printNewLine(1); 
                 printQuesion(); printNewLine(1); 
                 printDoorTitleList(); printNewLine(1); 
                 while(!printUserAction()) {printNewLine(1); } // loop print user action while it aint work TODO is this how it works?
@@ -39,10 +41,10 @@ public class GameLoop {
         }}
     }
 
-    // print description of rooms and doors as a single paragrath
-    private void printRoomAndDoors() {
-        String description = world.getRoomDescription();
-        ArrayList<Door> neighbours = world.getCurrentDoors();
+    // print description of room and its doors as a single paragrath, used in printDiscription above
+    private void printDescription() {
+        String description = world.getRoomDescription(); // add discription of current room
+        ArrayList<Door> neighbours = world.getCurrentDoors(); // get neighbour doors of Room
         description += " "; // whitespace to start descriptions
         if (neighbours != null) { // if room is connected to others
             for (Door door : world.getCurrentDoors()) {
@@ -79,7 +81,7 @@ public class GameLoop {
         try { // attempt user input
             int ansIdx = Integer.parseInt(scan.nextLine())-1; // prompt user input, get answer as int, -1 to convert to index
             if (ansIdx >= 0 && ansIdx < choices.size()) { // valid number entered
-                Door openDoor = choices.get(ansIdx-1); // get target door based on number
+                Door openDoor = choices.get(ansIdx); // get target door based on number
                 if (world.moveThroughDoor(openDoor)) {return true;} // update world to new door, update to new room
             } else {
                 // in out of bounds, but still an int TODO fix up edge cases
