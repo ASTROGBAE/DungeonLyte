@@ -1,6 +1,15 @@
-Room[antechamber]: a dank room
-Door[corridoor]: a closed door
+Room[Outside]: Before you is a mysterious mansion, shrouded in mist. 
+You've come here seeking the oracle who lives within, it is said she will grant the entrant any wish they desire!
 
-Room[corridoor]: a corridoor
-Door[antechamber]: an open door
-Item[key]: rusty key on the ground
+Door[Vestibule]: There is an engraved, double door facing you. 
+Lock[Front key]: The mansion door is locked. 
+Key[A rusty key]: The mansion door is unlocked. It creaks in the wind, 
+as if almost falling off its hinges. 
+
+Door[Hedge entrance]: Around the side you see a suprisingly well-kept hedge, towering above your own height. 
+A fallen gateway signals an opening in the hedge, big enough for you to walk through. 
+The ground there is thin, clean gravel.
+
+Door[The road behind you]: Behind you, a cracked cement road shows the track on which you came here.
+Lock[]: What? You want to leave already? You're here for the oracle!
+

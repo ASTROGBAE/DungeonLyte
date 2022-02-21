@@ -132,7 +132,7 @@ public class Drake {
      * @return true if head matches, false otherwise 
      */
     public Boolean isHead(String h) {
-        if (head.equals(h)) {return true;} return false;
+        if (head != null && head.equals(h)) {return true;} return false;
     }
 
 }
