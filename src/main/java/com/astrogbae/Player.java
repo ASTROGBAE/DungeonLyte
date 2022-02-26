@@ -1,13 +1,14 @@
+package com.astrogbae;
+
 import java.util.ArrayList;
 
-public class Player extends WorldObject {
+public class Player {
 
     private ArrayList<Item> items;
     private ArrayList<Feature> features;
     private ArrayList<WorldObject> encounters;
 
-    public Player(String _name, String _desc) { // TODO add mechanic to add name?
-        super(_name, _desc);
+    public Player() { // TODO should there be no name?
         items = new ArrayList<Item>();
         features = new ArrayList<Feature>();
         encounters = new ArrayList<WorldObject>();

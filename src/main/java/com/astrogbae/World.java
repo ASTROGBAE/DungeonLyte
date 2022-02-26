@@ -1,3 +1,5 @@
+package com.astrogbae;
+
 import java.util.ArrayList;
 
 public class World {
@@ -10,10 +12,10 @@ public class World {
     /**
      * World object, containing the subject room and allowing movement between said (TODO add)
      */
-    public World() {
-        WorldLoad wLoad = new WorldLoad("game.txt"); // init new world scan based on given file param
-        updateRoom(wLoad.loadGame());
-        player = new Player("name", "wow");
+    public World(String _sourceText) {
+        WorldLoad wLoad = new WorldLoad(); // init new world scan based on source text in Dracolysh
+        room = wLoad.loadFirstRoom(_sourceText); // set first room after loading, can be null
+        player = new Player(); // TODO add in mechanic for making char name? Maybe not important...
     }
 
     public Room getRoom() {

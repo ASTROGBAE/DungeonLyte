@@ -1,3 +1,5 @@
+package com.astrogbae;
+
 import java.util.ArrayList;
 
 /**
@@ -28,6 +30,15 @@ public abstract class WorldObject {
 
     public ArrayList<WorldObject> getStore() {
         return store;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WorldObject that = (WorldObject) o;
+        return firstName.equals(that.firstName) &&
+          lastName.equals(that.lastName);
     }
 
     // boolean checks

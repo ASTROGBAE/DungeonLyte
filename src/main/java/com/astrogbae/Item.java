@@ -1,3 +1,5 @@
+package com.astrogbae;
+
 public class Item extends WorldObject {
 
     public Item(String _name, String _desc) {

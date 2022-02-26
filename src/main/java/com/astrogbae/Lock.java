@@ -1,10 +1,12 @@
+package com.astrogbae;
+
 public class Lock extends WorldObject {
 
     protected boolean locked;
-    protected WorldObject keyObject;
+    protected WorldObject unlockObject;
 
     /**
-     * Locked until unlocked
+     * unlocked until unlock
      * @param _name
      * @param _desc
      */
@@ -17,10 +19,10 @@ public class Lock extends WorldObject {
         return locked;
     }
 
-    public void addkeyObject(WorldObject _key) {
+    public void addUnlockObject(WorldObject _unlock) {
         // TODO perhaps add "lockable" condition/parent to throw type cheking?
-        if (_key instanceof Item || _key instanceof Feature) {
-            keyObject = _key;
+        if (_unlock instanceof Item || _unlock instanceof Feature) {
+            unlockObject = _unlock;
         }
         //else {bad!} TODO, throw error?
     }

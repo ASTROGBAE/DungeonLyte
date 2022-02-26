@@ -1,3 +1,5 @@
+package com.astrogbae;
+
 public class Feature extends WorldObject {
 
     public Feature(String _name, String _desc) {

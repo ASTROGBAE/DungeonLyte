@@ -1,3 +1,5 @@
+package com.astrogbae;
+
 import java.util.ArrayList;
 
 /**
@@ -20,17 +22,17 @@ public class Drake {
     private String[] wrapperFullRegex = {"^", "*: "}; // regex to wrap front and back of full exp
 
     /**
-     * create an instance of a drake from a scanned line of Dracolysh
-     * @param line a syntaxically correct line of Dracolysh 
+     * create an instance of a drake from a scanned line.
+     * @param line string input, will create a proper Drake object if line is a 
+     * syntaxically correct line of Dracolysh, will initialise head, title and tail as null otherwise
      */ // TODO add better error detection for incorrect line param?
     
     public Drake(String line) { // constructor for drake object
-        if (isDrake(line)) { // if valid drake string, add in values
+        if (isDrake(line)) { // check if line is syntatically correct (does not check Header type)
             head = setHead(line);
             title = setTitle(line); // add title if it exists, else it is ""
             tail = setTail(line);
-        } else {
-        System.out.println("Drake could not be created: " + line);}
+        }
     }
 
     // get methods
@@ -123,7 +125,12 @@ public class Drake {
      */
     private Boolean isDrake(String line) {
         String regex = wrapperFullRegex[0] + setHead(line) + titleRegex + wrapperFullRegex[1] + ".*"; // check matches entire line
-        return line.matches(regex);
+        try { // try regex, will throw syntax exception if exp is invalid
+            return line.matches(regex);
+        }
+        catch(Exception e) { // return false if syntax exp in invalid, catch exception
+            return false;
+          }
     }
 
     /**

@@ -1,3 +1,5 @@
+package com.astrogbae;
+
 import java.util.ArrayList;
 
 public class Room extends WorldObject {

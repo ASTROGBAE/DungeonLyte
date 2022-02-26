@@ -1,3 +1,5 @@
+package com.astrogbae;
+
 public class Door extends WorldObject {
 
     Room[] link = null;

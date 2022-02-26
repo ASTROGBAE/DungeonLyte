@@ -1,3 +1,5 @@
+package com.astrogbae;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +13,7 @@ public class WorldObjectFactory {
     public WorldObjectFactory() {
         worldObjectMap = new HashMap<String,WorldObject>();
         firstRoomFound = false;
+        firstRoom = null; // initialise as null, in case no valid room can be found
     }
 
     // TODO add factory design pattern patterning (loookup)
@@ -69,13 +72,13 @@ public class WorldObjectFactory {
                     addObjectToMap(lock); return lock;
                 }
 
-                else if (_drake.isHead("Key")) { // "key" option, no actual key obj, will add item or feature to key condition
+                else if (_drake.isHead("Unlock")) { // "Unlock" option, no actual unlock obj, will add item or feature to unlock condition
                 // TODO add option for doors or rooms for if they are discovered/travelled or not?
                 Lock higherLock = (Lock)higherObject;
-                WorldObject keyObject = getObject(_drake.getTitle());
-                String keyDescription = _drake.getTail(); // TODO use this lock description in place of the regular when needed?
-                // TODO figure out a system for lock and key descriptions?
-                higherLock.addkeyObject(keyObject);
+                WorldObject unlockObject = getObject(_drake.getTitle());
+                String unlockDescription = _drake.getTail(); // TODO use this lock description in place of the regular when needed?
+                // TODO figure out a system for lock and unlock descriptions?
+                higherLock.addUnlockObject(unlockObject);
                 } 
             }
         }
